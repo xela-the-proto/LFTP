@@ -3,6 +3,7 @@ using FTP_console.FTP;
 using FTPconsole.FTP;
 using Newtonsoft.Json;
 using System.Windows.Forms;
+using FTP_console.Menus;
 
 public class FTPConsole
 {
@@ -11,7 +12,6 @@ public class FTPConsole
         Thread thread = new Thread(init);
         thread.SetApartmentState(ApartmentState.STA);
         thread.Start();
-        
     }
 
     public static void init()
@@ -73,8 +73,34 @@ public class FTPConsole
                 }
             }
 
-            FTP ftp_manager = new FTP();
-            ftp_manager.connection_manager();
+            while (true)
+            {
+                int op = 0;
+                string line;
+                Console.WriteLine("Select which operation you would like to use");
+                Console.WriteLine("[0] Quit program");
+                Console.WriteLine("[1] Upload");
+                line = Console.ReadLine();
+                if (line == "")
+                {
+                    op = Int32.MaxValue;
+                }
+                else op = Convert.ToInt32(line);
+                switch (op)
+                {
+                    case 1:
+                        UploadMenu uploadMenu = new UploadMenu();
+                        uploadMenu.main_menu(settings_config.verbose);
+                        break;
+                    case 0:
+                        Console.WriteLine("Quitting...");
+                        return;
+                        break;
+                    default:
+                        break;
+                }
+
+            }
         }
         catch (Exception e)
         {
