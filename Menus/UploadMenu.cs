@@ -1,5 +1,4 @@
 ﻿using FluentFTP;
-using FTPconsole.FTP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using FTP_console.FTP;
+using FTP_console.Config;
 
 namespace FTP_console.Menus
 {

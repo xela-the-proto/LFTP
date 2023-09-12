@@ -1,6 +1,5 @@
 ﻿using FTP_console.Config;
 using FTP_console.FTP;
-using FTPconsole.FTP;
 using Newtonsoft.Json;
 using System.Windows.Forms;
 using FTP_console.Menus;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FTPconsole.FTP
+namespace FTP_console.Config
 {
     internal class FTP_Json
     {
