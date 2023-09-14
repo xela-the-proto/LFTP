@@ -25,14 +25,14 @@ public class FTPConsole
             //first init
             if (!File.Exists(".\\Config\\Settings_Config.json"))
             {
-                if (settings_config.verbose)
-                {
-                    Console.WriteLine("Loading Settings config files");
-                }
-
                 if (!Directory.Exists(".\\Config"))
                 {
                     Directory.CreateDirectory(".\\Config");
+                }
+
+                if (settings_config.verbose)
+                {
+                    Console.WriteLine("Loading Settings config files");
                 }
 
                 using (StreamWriter file = File.CreateText(".\\Config\\Settings_Config.json"))
@@ -45,13 +45,18 @@ public class FTPConsole
             }
             else if (!File.Exists(".\\Config\\FTP_Config.json"))
             {
+                if (!Directory.Exists(".\\Config"))
+                {
+                    Directory.CreateDirectory(".\\Config");
+                }
+
                 FTP_Json ftp_config = new FTP_Json
                 {
                     host = "localhost",
                     logon_type = null,
                     password = "",
                     port = 21,
-                    username = "anonymus"
+                    username = "anonymous"
                 };
 
                 if (settings_config.verbose)
@@ -59,10 +64,6 @@ public class FTPConsole
                     Console.WriteLine("Loading FTP config files");
                 }
 
-                if (!Directory.Exists(".\\Config"))
-                {
-                    Directory.CreateDirectory(".\\Config");
-                }
 
                 using (StreamWriter file = File.CreateText(".\\Config\\FTP_Config.json"))
                 {

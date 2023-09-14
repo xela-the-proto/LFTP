@@ -16,10 +16,7 @@ namespace FTP_console.FTP
             Stopwatch timer = new Stopwatch();
             FtpListItem[] items;
             IndexedFIles[] indexedFIles = new IndexedFIles[4096];
-           
-            Console.WriteLine("Select which in which position you want to save your files");
-            dialog.Filter = "Placeholder file (*.placeholder)|*.placeholder";
-            dialog.ShowDialog();
+
 
             /*
              * for some god forsaken reason the default openfolder dialog is 
@@ -28,8 +25,27 @@ namespace FTP_console.FTP
              */
 
             Console.WriteLine("retrieving list of files from server...");
-            items = client.GetListing("\\", FtpListOption.Recursive);
+            items = client.GetListing(".", FtpListOption.Recursive);
 
+            foreach (var item in items)
+            {
+                Console.WriteLine(item.Name);
+            }
+
+            Console.WriteLine("Select which files to download (type name + extension): ");
+            path = Console.ReadLine();
+
+            foreach (var item in items)
+            {
+                if (item.Name == path)
+                {
+                    Console.WriteLine(String.Format("Downloading {0}", path));
+                    dialog.Filter = "File (*.placeholder)|*.placeholder";
+                    dialog.ShowDialog();
+
+                    client.DownloadFile(Path.GetFullPath(dialog.FileName), item.FullName);
+                }
+            }
             //TODO: FINISH IMPLEMETNING UPLOAD LOGIC
             /*
             for (int i = 0; i < items.Length; i++)
@@ -45,7 +61,6 @@ namespace FTP_console.FTP
             Console.WriteLine("Insert the number shown near to the entry to select it");
             file_index_selected = Convert.ToInt32(Console.ReadLine());
             */
-
 
 
             return timer;
