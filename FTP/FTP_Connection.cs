@@ -1,4 +1,5 @@
 ﻿using FluentFTP;
+using FluentFTP.Exceptions;
 using FTP_console.Config;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -8,13 +9,13 @@ namespace FTP_console.FTP
 {
     internal class FTP_Connection
     {
-        public void connection_manager(bool verbose)
+        public void connection_manager(bool verbose, string type_of_op)
         {
             try
             {
+                StreamReader file = File.OpenText(".\\Config\\FTP_Config.json");
                 Stopwatch upload_time = new Stopwatch();
                 FileUpload upload = new FileUpload();
-                StreamReader file = File.OpenText(".\\Config\\FTP_Config.json");
 
                 JsonSerializer serializer = new JsonSerializer();
                 FTP_Json? ftp_config = serializer.Deserialize(file, typeof(FTP_Json)) as FTP_Json;
@@ -27,11 +28,16 @@ namespace FTP_console.FTP
                 FtpClient client = new FtpClient(ftp_config.host, ftp_config.username, ftp_config.password, ftp_config.port);
 
                 Console.WriteLine("Connecting on " + ftp_config.host + " with port " + ftp_config.port);
-                client.AutoConnect();
 
+                var connection_status =  client.AutoConnect();
+
+                if (connection_status == null)
+                {
+                    throw new FtpException("unable to connect to any suitable ftp servers!");
+                }
                 if (verbose)
                 {
-                    Console.WriteLine("FTP is running on " + client.SystemType + " with connection type " + client.ConnectionType);
+                    Console.WriteLine("FTP is running on " + client.SystemType + " with connection type " + client.ConnectionType.ToString());
                     Console.WriteLine("List of server functions: ");
                     for (int i = 0; i < client.Capabilities.Count; i++)
                     {
@@ -42,13 +48,20 @@ namespace FTP_console.FTP
                 }
                 Thread.Sleep(2000);
 
-                client.AutoConnect();
-
-                upload.upload_file(client);
-
-                FileInfo fileInfo = new FileInfo(upload.file_path);
-
-                Console.WriteLine("All done! transferred " + fileInfo.Length + " bytes in " + upload_time.Elapsed + "!");
+                switch (type_of_op)
+                {
+                    case "U":
+                        upload.upload_file(client);
+                        FileInfo fileInfo = new FileInfo(upload.file_path);
+                        Console.WriteLine("All done! transferred " + fileInfo.Length + " bytes in " + upload_time.Elapsed + "!");
+                        break;
+                    case "D":
+                        FileDownload download = new FileDownload();
+                        download.download_file(client);
+                        break;
+                    default:
+                        break;
+                }            
             }
             catch (Exception e)
             {
@@ -56,7 +69,7 @@ namespace FTP_console.FTP
             }
         }
 
-        public void connection_manager(FtpClient client, bool verbose)
+        public void connection_manager(FtpClient client, bool verbose, string type_of_op)
         {
             try
             {

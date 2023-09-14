@@ -1,25 +1,19 @@
 ﻿using FluentFTP;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using FTP_console.FTP;
 using FTP_console.Config;
+using FTP_console.FTP;
+using Newtonsoft.Json;
 
 namespace FTP_console.Menus
 {
-    internal class UploadMenu
+    internal class DownloadMenu
     {
-        static string type_of_op = "U";
-        public void upload_menu_UI(bool verbose)
+        static string type_of_op = "D";
+        public void download_menu_UI(bool verbose)
         {
             int op = 0;
             FTP_Connection connection = new FTP_Connection();
 
-            
-            Console.WriteLine("how would you like to connect to upload your files?");
+            Console.WriteLine("how would you like to connect to download your files?");
             Console.WriteLine("[0] automatic using FTP_config.json");
             Console.WriteLine("[1] manually");
             op = Convert.ToInt32(Console.ReadLine());
@@ -29,6 +23,7 @@ namespace FTP_console.Menus
                 case 0:
                     connection.connection_manager(verbose, type_of_op);
                     break;
+
                 case 1:
                     Console.WriteLine("Input the host:");
                     string host = Console.ReadLine();
@@ -38,13 +33,13 @@ namespace FTP_console.Menus
                     string user = Console.ReadLine();
                     Console.WriteLine("Input the password:");
                     string password = Console.ReadLine();
-                    
-                    FtpClient client = new FtpClient(host,user,password,port);
 
-                    connection.connection_manager(client,verbose, type_of_op);
+                    FtpClient client = new FtpClient(host, user, password, port);
+
+                    connection.connection_manager(client, verbose, type_of_op);
                     break;
-
             }
         }
+
     }
 }

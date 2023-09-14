@@ -79,6 +79,7 @@ public class FTPConsole
                 Console.WriteLine("Select which operation you would like to use");
                 Console.WriteLine("[0] Quit program");
                 Console.WriteLine("[1] Upload");
+                Console.WriteLine("[2] Download");
                 line = Console.ReadLine();
                 if (line == "")
                 {
@@ -87,9 +88,13 @@ public class FTPConsole
                 else op = Convert.ToInt32(line);
                 switch (op)
                 {
+                    case 2:
+                        DownloadMenu downloadMenu = new DownloadMenu();
+                        downloadMenu.download_menu_UI(settings_config.verbose);
+                        break;
                     case 1:
                         UploadMenu uploadMenu = new UploadMenu();
-                        uploadMenu.main_menu(settings_config.verbose);
+                        uploadMenu.upload_menu_UI(settings_config.verbose);
                         break;
                     case 0:
                         Console.WriteLine("Quitting...");

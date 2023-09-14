@@ -6,7 +6,6 @@ namespace FTP_console.FTP
 {
     public class FileUpload
     {
-
         public string file_path {get;set;}
         public Stopwatch upload_file(FtpClient client)
         {
