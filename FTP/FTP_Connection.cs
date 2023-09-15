@@ -29,7 +29,7 @@ namespace FTP_console.FTP
 
                 Console.WriteLine("Connecting on " + ftp_config.host + " with port " + ftp_config.port);
 
-                var connection_status =  client.AutoConnect();
+                var connection_status = client.AutoConnect();
 
                 if (connection_status == null)
                 {
@@ -61,7 +61,8 @@ namespace FTP_console.FTP
                         break;
                     default:
                         break;
-                }            
+
+                }
             }
             catch (Exception e)
             {
