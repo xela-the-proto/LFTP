@@ -1,8 +1,7 @@
 ﻿using FTP_console.Config;
-using FTP_console.FTP;
+using FTP_console.Menus;
 using Newtonsoft.Json;
 using System.Windows.Forms;
-using FTP_console.Menus;
 
 public class FTPConsole
 {
@@ -17,7 +16,6 @@ public class FTPConsole
     {
         try
         {
-
             Config_Json settings_config = new Config_Json
             {
                 verbose = true
@@ -41,7 +39,6 @@ public class FTPConsole
                     serializer.Formatting = Formatting.Indented;
                     serializer.Serialize(file, settings_config);
                 }
-
             }
             else if (!File.Exists(".\\Config\\FTP_Config.json"))
             {
@@ -63,7 +60,6 @@ public class FTPConsole
                 {
                     Console.WriteLine("Loading FTP config files");
                 }
-
 
                 using (StreamWriter file = File.CreateText(".\\Config\\FTP_Config.json"))
                 {
@@ -93,18 +89,20 @@ public class FTPConsole
                         DownloadMenu downloadMenu = new DownloadMenu();
                         downloadMenu.download_menu_UI(settings_config.verbose);
                         break;
+
                     case 1:
                         UploadMenu uploadMenu = new UploadMenu();
                         uploadMenu.upload_menu_UI(settings_config.verbose);
                         break;
+
                     case 0:
                         Console.WriteLine("Quitting...");
                         return;
                         break;
+
                     default:
                         break;
                 }
-
             }
         }
         catch (Exception e)

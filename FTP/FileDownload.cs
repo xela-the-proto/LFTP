@@ -7,98 +7,103 @@ namespace FTP_console.FTP
     internal class FileDownload
     {
         //TODO: MAKE A BETTER DOWNLAOD MENU
+        public long file_size { get; set; }
+
         public Stopwatch download_file(FtpClient client)
         {
-            string path = "";
             Stopwatch timer = new Stopwatch();
             SaveFileDialog dialog = new SaveFileDialog();
+            string command = "";
+            string path = "";
+            string path_check = "";
             string[] item = null;
             bool browsing = true;
-            string file_or_folder_name = "";
 
-            Action<FtpProgress> progress = delegate (FtpProgress p)
+            try
             {
-                string formatted_percentage;
-                if (p.Progress == 1)
+                Action<FtpProgress> progress = delegate (FtpProgress p)
                 {
-                    timer.Stop();
-                }
-                else
-                {
-                    formatted_percentage = string.Format("{0:N2}", p.Progress);
-                    Console.WriteLine(formatted_percentage + "%");
-                    //Console.WriteLine("\r{0}%", p.Progress);
-                }
-            };
+                    string formatted_percentage;
+                    if (p.Progress == 1)
+                    {
+                        timer.Stop();
+                    }
+                    else
+                    {
+                        formatted_percentage = string.Format("{0:N2}", p.Progress);
+                        Console.WriteLine(formatted_percentage + "%");
+                    }
+                };
 
-            Console.WriteLine("retrieving list of files from server...");
+                Console.WriteLine("retrieving list of files from server...");
 
-            //item = client.GetListing("/", FtpListOption.Recursive);
-
-            item = client.GetNameListing(".");
-
-            for (int i = 0; i < item.Length; i++)
-            {
-                Console.WriteLine(item[i]);
-            }
-
-            Console.WriteLine("To downlaod a file type download [insert the name of file / folder]");
-            Console.WriteLine("Or type cd [insert folder name here] to navigate down a folder and cd .. to go up");
-
-            
-            while (browsing)
-            {
-                path = Console.ReadLine();
-                if (path.StartsWith("cd"))
-                {
-                    item = client.GetNameListing(path.Substring(3));
-                }else if(path == "cd ..")
-                {
-                    item = client.GetNameListing(path.Substring(path.IndexOf('/') + 1));
-                }
-                else if (path.StartsWith("download"))
-                {
-                    file_or_folder_name = path.Substring(8);
-                    browsing = false;
-
-                }
+                item = client.GetNameListing("\\");
 
                 for (int i = 0; i < item.Length; i++)
                 {
                     Console.WriteLine(item[i]);
                 }
-                
+
+                Console.WriteLine("To download a file type download [insert the name of file / folder]");
+                Console.WriteLine("Or type cd [insert folder name here] to navigate down a folder and cd .. to go to the top root folder");
+
+                while (browsing)
+                {
+                    //TODO: FIND A BETTER WAY TO BROWSE
+                    command = Console.ReadLine();
+                    if (command.TrimStart().StartsWith("cd", StringComparison.OrdinalIgnoreCase))
+                    {
+                        item = client.GetNameListing(command.Substring(3));
+                        path_check = path + command.Substring(3) + @"\";
+                        if (!client.DirectoryExists(path_check))
+                        {
+                            throw new MissingFieldException("Directory doesn't exist!");
+                        }
+                        path = path + command.Substring(3) + @"\";
+                    }
+                    if (command.TrimStart().StartsWith("cd ..", StringComparison.OrdinalIgnoreCase))
+                    {
+                        item = client.GetNameListing(".");
+                        path = @"\";
+                    }
+                    if (command.StartsWith("download"))
+                    {
+                        path = path + command.Substring(9);
+                        browsing = false;
+                    }
+
+                    for (int i = 0; i < item.Length; i++)
+                    {
+                        if (!browsing)
+                        {
+                            break;
+                        }
+                        Console.WriteLine(item[i]);
+                    }
+                }
+
+                Console.WriteLine(String.Format("Downloading {0}", command));
+                dialog.Filter = "Any file (*.*) | *.*";
+                dialog.FileName = path.Split("\\").Last();
+                dialog.ShowDialog();
+                timer.Start();
+
+                client.DownloadFile(dialog.FileName, path.TrimStart(), FtpLocalExists.Overwrite, FtpVerify.None, progress);
+
+                timer.Stop();
+
+                file_size = client.GetFileSize(path.TrimStart());
             }
-
-            Console.WriteLine(String.Format("Downloading {0}", path));
-            dialog.Filter = "Any file (*.*) | *.*";
-            dialog.FileName = file_or_folder_name;
-            dialog.ShowDialog();
-            timer.Start();
-
-
-            //client.DownloadFile(Path.GetFullPath(dialog.FileName), client.GetWorkingDirectory , FtpLocalExists.Overwrite, //FtpVerify.OnlyChecksum, progress);   
-
+            catch (MissingFieldException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, e.TargetSite.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             return timer;
         }
     }
 }
-
-
-/*
- * OLD CODE
-            for (int i = 0; i < items.Length; i++)
-            {
-                indexedFIles[i].index = i;
-                indexedFIles[i].item = items[i];
-            }
-
-            for (int i = 0; i < indexedFIles.Length; i++)
-            {
-                Console.WriteLine(indexedFIles[i].toString());   
-            }
-            Console.WriteLine("Insert the number shown near to the entry to select it");
-            file_index_selected = Convert.ToInt32(Console.ReadLine());
-            */
-

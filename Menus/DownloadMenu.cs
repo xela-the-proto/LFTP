@@ -1,13 +1,12 @@
 ﻿using FluentFTP;
-using FTP_console.Config;
 using FTP_console.FTP;
-using Newtonsoft.Json;
 
 namespace FTP_console.Menus
 {
     internal class DownloadMenu
     {
-        static string type_of_op = "D";
+        private static string type_of_op = "D";
+
         public void download_menu_UI(bool verbose)
         {
             int op = 0;
@@ -40,6 +39,5 @@ namespace FTP_console.Menus
                     break;
             }
         }
-
     }
 }

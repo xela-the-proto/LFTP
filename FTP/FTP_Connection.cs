@@ -14,9 +14,7 @@ namespace FTP_console.FTP
             try
             {
                 StreamReader file = File.OpenText(".\\Config\\FTP_Config.json");
-                Stopwatch upload_time = new Stopwatch();
-                FileUpload upload = new FileUpload();
-
+                Stopwatch stopwatch = new Stopwatch();
                 JsonSerializer serializer = new JsonSerializer();
                 FTP_Json? ftp_config = serializer.Deserialize(file, typeof(FTP_Json)) as FTP_Json;
 
@@ -51,17 +49,20 @@ namespace FTP_console.FTP
                 switch (type_of_op)
                 {
                     case "U":
-                        upload.upload_file(client);
+                        FileUpload upload = new FileUpload();
+                        stopwatch = upload.upload_file(client);
                         FileInfo fileInfo = new FileInfo(upload.file_path);
-                        Console.WriteLine("All done! transferred " + fileInfo.Length + " bytes in " + upload_time.Elapsed + "!");
-                        break;
-                    case "D":
-                        FileDownload download = new FileDownload();
-                        download.download_file(client);
-                        break;
-                    default:
+                        Console.WriteLine("All done! transferred " + fileInfo.Length + " bytes in " + stopwatch.Elapsed + "!");
                         break;
 
+                    case "D":
+                        FileDownload download = new FileDownload();
+                        stopwatch = download.download_file(client);
+                        Console.WriteLine("All done! downloaded " + download.file_size + " bytes in " + stopwatch.Elapsed + "!");
+                        break;
+
+                    default:
+                        break;
                 }
             }
             catch (Exception e)
