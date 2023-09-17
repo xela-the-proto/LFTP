@@ -40,7 +40,8 @@ public class FTPConsole
                     serializer.Serialize(file, settings_config);
                 }
             }
-            else if (!File.Exists(".\\Config\\FTP_Config.json"))
+
+            if (!File.Exists(".\\Config\\FTP_Config.json"))
             {
                 if (!Directory.Exists(".\\Config"))
                 {
@@ -66,6 +67,7 @@ public class FTPConsole
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Formatting = Formatting.Indented;
                     serializer.Serialize(file, ftp_config);
+                    MessageBox.Show("!!!IF THIS IS THE FIRST TIME YOU START UP THIS APPLICATION GO INTO THE CONFIG FOLDER AND WRITE YOUR FTP LOGIN DETAILS INTO THE JSON FILE!!! \n If you see this message even if the file was created and was modified leave an issue on the Github page!", "Caution!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
 
