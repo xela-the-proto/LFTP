@@ -42,7 +42,7 @@ namespace FTP_console.FTP
                     Console.WriteLine(item[i]);
                 }
 
-                Console.WriteLine("To download a file type download [insert the name of file / folder]");
+                Console.WriteLine("To download a file type \"download\" [insert the name of file / folder]");
                 Console.WriteLine("Or type cd [insert folder name here] to navigate down a folder and cd .. to go to the top root folder");
 
 

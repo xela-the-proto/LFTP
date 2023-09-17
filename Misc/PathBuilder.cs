@@ -1,10 +1,4 @@
 ﻿using FluentFTP;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FTP_console.Misc
 {
@@ -14,15 +8,23 @@ namespace FTP_console.Misc
         private string[] item;
         private string path;
         private string path_check;
-        private bool browsing;
+        private bool browsing = true;
+
         public string build_path(FtpClient client)
         {
-            try
+            while (browsing)
             {
-                while (browsing)
+                try
                 {
                     //TODO: FIND A BETTER WAY TO BROWSE
                     command = Console.ReadLine();
+
+                    if (!command.StartsWith("cd") && !command.StartsWith("cd ..") && !command.StartsWith("download") && 
+                        command != "upload")
+                    {
+                        throw new FormatException("Bad command! only supported commands are \"cd\", \"cd ..\", \"download\"");
+                    }
+
                     if (command.TrimStart().StartsWith("cd", StringComparison.OrdinalIgnoreCase))
                     {
                         item = client.GetNameListing(command.Substring(3));
@@ -33,14 +35,20 @@ namespace FTP_console.Misc
                         }
                         path = path + command.Substring(3) + @"\";
                     }
+
                     if (command.TrimStart().StartsWith("cd ..", StringComparison.OrdinalIgnoreCase))
                     {
                         item = client.GetNameListing(".");
                         path = @"\";
                     }
+
                     if (command.StartsWith("download"))
                     {
                         path = path + command.Substring(9);
+                        browsing = false;
+                    }
+                    if(command == "upload")
+                    {
                         browsing = false;
                     }
 
@@ -53,10 +61,13 @@ namespace FTP_console.Misc
                         Console.WriteLine(item[i]);
                     }
                 }
-            }
-            catch (MissingFieldException e)
-            {
-                Console.WriteLine(e.Message);
+                catch (MissingFieldException e)
+                {
+                    Console.WriteLine($"{e.Message}", e);
+                }catch (FormatException e)
+                {
+                    Console.WriteLine($"{e.Message}", e);
+                }
             }
             return path;
         }

@@ -1,5 +1,7 @@
 ﻿using FluentFTP;
+using FTP_console.Misc;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace FTP_console.FTP
@@ -10,9 +12,25 @@ namespace FTP_console.FTP
 
         public Stopwatch upload_file(FtpClient client)
         {
+            string path;
             string confirmation;
             bool overwrite = false;
             bool verify = false;
+            PathBuilder builder = new PathBuilder();
+
+            Console.WriteLine("retrieving list of files from server...");
+
+            string[] item = client.GetNameListing("\\");
+
+            for (int i = 0; i < item.Length; i++)
+            {
+                Console.WriteLine(item[i]);
+            }
+
+            Console.WriteLine("To upload a file type \"upload\" when your in the right folder");
+            Console.WriteLine("Or type cd [insert folder name here] to navigate down a folder and cd .. to go to the top root folder");
+
+            path = builder.build_path(client);
 
             Console.WriteLine("select file to upload");
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -61,7 +79,7 @@ namespace FTP_console.FTP
             };
 
             // upload a file with progress tracking
-            client.UploadFile(openFileDialog.FileName, "/" + openFileDialog.SafeFileName, FtpRemoteExists.Overwrite, true, FtpVerify.None, progress);
+            client.UploadFile(openFileDialog.FileName, path + "/" + openFileDialog.SafeFileName, FtpRemoteExists.Overwrite, true, FtpVerify.None, progress);
 
             return upload_time;
         }
