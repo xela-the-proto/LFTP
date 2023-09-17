@@ -38,25 +38,6 @@ namespace FTP_console.FTP
 
             long size = client.GetFileSize(openFileDialog.FileName);
 
-            Console.WriteLine("Overwrite files with the same name? [Y/N]");
-            confirmation = Console.ReadLine();
-            confirmation.ToUpper();
-
-            if (confirmation == "Y")
-            {
-                overwrite = true;
-            }
-            else overwrite = false;
-
-            Console.WriteLine("Verify file integroty after upload? [Y/N]");
-            confirmation = Console.ReadLine();
-            confirmation.ToUpper();
-            if (confirmation == "Y")
-            {
-                verify = true;
-            }
-            else verify = false;
-
             Console.WriteLine("uploading...");
             file_path = openFileDialog.FileName;
 
