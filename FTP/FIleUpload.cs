@@ -20,14 +20,14 @@ namespace FTP_console.FTP
 
             Console.WriteLine("retrieving list of files from server...");
 
-            string[] item = client.GetNameListing("\\");
+            string[] item = client.GetNameListing(@"\");
 
             for (int i = 0; i < item.Length; i++)
             {
                 Console.WriteLine(item[i]);
             }
 
-            Console.WriteLine("To upload a file type \"upload\" when your in the right folder");
+            Console.WriteLine("To upload a file type upload when your in the right folder");
             Console.WriteLine("Or type cd [insert folder name here] to navigate down a folder and cd .. to go to the top root folder");
 
             path = builder.build_path(client);

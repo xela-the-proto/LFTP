@@ -22,7 +22,7 @@ namespace FTP_console.Misc
                     if (!command.StartsWith("cd") && !command.StartsWith("cd ..") && !command.StartsWith("download") && 
                         command != "upload")
                     {
-                        throw new FormatException("Bad command! only supported commands are \"cd\", \"cd ..\", \"download\"");
+                        throw new FormatException(@"Bad command! only supported commands are cd, cd .., download, upload");
                     }
 
                     if (command.TrimStart().StartsWith("cd", StringComparison.OrdinalIgnoreCase))

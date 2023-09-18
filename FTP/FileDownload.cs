@@ -35,14 +35,14 @@ namespace FTP_console.FTP
 
                 Console.WriteLine("retrieving list of files from server...");
 
-                string[] item = client.GetNameListing("\\");
+                string[] item = client.GetNameListing(@"\");
 
                 for (int i = 0; i < item.Length; i++)
                 {
                     Console.WriteLine(item[i]);
                 }
 
-                Console.WriteLine("To download a file type \"download\" [insert the name of file / folder]");
+                Console.WriteLine("To download a file type download [insert the name of file / folder]");
                 Console.WriteLine("Or type cd [insert folder name here] to navigate down a folder and cd .. to go to the top root folder");
 
 
@@ -50,7 +50,7 @@ namespace FTP_console.FTP
 
                 Console.WriteLine(String.Format("Downloading..."));
                 dialog.Filter = "Any file (*.*) | *.*";
-                dialog.FileName = path.Split("\\").Last();
+                dialog.FileName = path.Split(@"\").Last();
                 dialog.ShowDialog();
                 timer.Start();
 
