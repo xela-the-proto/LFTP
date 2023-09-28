@@ -14,65 +14,65 @@ public class FTPConsole
 
     public static void init()
     {
-        try
+        while (true)
         {
-            Config_Json settings_config = new Config_Json
+            try
             {
-                verbose = true
-            };
-            //first init
-            if (!File.Exists(".\\Config\\Settings_Config.json"))
-            {
-                if (!Directory.Exists(".\\Config"))
+                Config_Json settings_config = new Config_Json
                 {
-                    Directory.CreateDirectory(".\\Config");
-                }
-
-                if (settings_config.verbose)
-                {
-                    Console.WriteLine("Loading Settings config files");
-                }
-
-                using (StreamWriter file = File.CreateText(".\\Config\\Settings_Config.json"))
-                {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Formatting = Formatting.Indented;
-                    serializer.Serialize(file, settings_config);
-                }
-            }
-
-            if (!File.Exists(".\\Config\\FTP_Config.json"))
-            {
-                if (!Directory.Exists(".\\Config"))
-                {
-                    Directory.CreateDirectory(".\\Config");
-                }
-
-                FTP_Json ftp_config = new FTP_Json
-                {
-                    host = "localhost",
-                    logon_type = null,
-                    password = "",
-                    port = 21,
-                    username = "anonymous"
+                    verbose = true
                 };
-
-                if (settings_config.verbose)
+                //first init
+                if (!File.Exists(".\\Config\\Settings_Config.json"))
                 {
-                    Console.WriteLine("Loading FTP config files");
+                    if (!Directory.Exists(".\\Config"))
+                    {
+                        Directory.CreateDirectory(".\\Config");
+                    }
+
+                    if (settings_config.verbose)
+                    {
+                        Console.WriteLine("Loading Settings config files");
+                    }
+
+                    using (StreamWriter file = File.CreateText(".\\Config\\Settings_Config.json"))
+                    {
+                        JsonSerializer serializer = new JsonSerializer();
+                        serializer.Formatting = Formatting.Indented;
+                        serializer.Serialize(file, settings_config);
+                    }
                 }
 
-                using (StreamWriter file = File.CreateText(".\\Config\\FTP_Config.json"))
+                if (!File.Exists(".\\Config\\FTP_Config.json"))
                 {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.Formatting = Formatting.Indented;
-                    serializer.Serialize(file, ftp_config);
-                    MessageBox.Show("!!!IF THIS IS THE FIRST TIME YOU START UP THIS APPLICATION GO INTO THE CONFIG FOLDER AND WRITE YOUR FTP LOGIN DETAILS INTO THE JSON FILE!!! \n If you see this message even if the file was created and was modified leave an issue on the Github page!", "Caution!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
+                    if (!Directory.Exists(".\\Config"))
+                    {
+                        Directory.CreateDirectory(".\\Config");
+                    }
 
-            while (true)
-            {
+                    FTP_Json ftp_config = new FTP_Json
+                    {
+                        host = "localhost",
+                        logon_type = null,
+                        password = "",
+                        port = 21,
+                        username = "anonymous"
+                    };
+
+                    if (settings_config.verbose)
+                    {
+                        Console.WriteLine("Loading FTP config files");
+                    }
+
+                    using (StreamWriter file = File.CreateText(".\\Config\\FTP_Config.json"))
+                    {
+                        JsonSerializer serializer = new JsonSerializer();
+                        serializer.Formatting = Formatting.Indented;
+                        serializer.Serialize(file, ftp_config);
+                        MessageBox.Show("!!!IF THIS IS THE FIRST TIME YOU START UP THIS APPLICATION GO INTO THE CONFIG FOLDER AND WRITE YOUR FTP LOGIN DETAILS INTO THE JSON FILE!!! \n If you see this message even if the file was created and was modified leave an issue on the Github page!", "Caution!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                }
+
                 int op = 0;
                 string line;
                 Console.WriteLine("Select which operation you would like to use");
@@ -106,10 +106,10 @@ public class FTPConsole
                         break;
                 }
             }
-        }
-        catch (Exception e)
-        {
-            System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
