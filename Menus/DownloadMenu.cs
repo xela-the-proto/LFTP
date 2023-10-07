@@ -3,16 +3,16 @@ using FTP_console.FTP;
 
 namespace FTP_console.Menus
 {
-    internal class UploadMenu
+    internal class DownloadMenu
     {
-        private static string type_of_op = "U";
+        private static string type_of_op = "D";
 
-        public void upload_menu_UI(bool verbose)
+        public void download_menu_UI(bool verbose)
         {
             int op = 0;
             FTP_Connection connection = new FTP_Connection();
 
-            Console.WriteLine("how would you like to connect to upload your files?");
+            Console.WriteLine("how would you like to connect to download your files?");
             Console.WriteLine("[0] automatic using FTP_config.json");
             Console.WriteLine("[1] manually");
             op = Convert.ToInt32(Console.ReadLine());
@@ -36,6 +36,9 @@ namespace FTP_console.Menus
                     FtpClient client = new FtpClient(host, user, password, port);
 
                     connection.connection_manager(client, verbose, type_of_op);
+                    break;
+                default:
+                    throw new InvalidOperationException("Unexpected value");
                     break;
             }
         }
