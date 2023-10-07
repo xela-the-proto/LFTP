@@ -120,10 +120,14 @@ public class FTPConsole
                         break;
 
                     default:
+                        throw new NotSupportedException();
                         break;
                 }
             }
-
+            catch (NotSupportedException e)
+            {
+                System.Windows.Forms.MessageBox.Show("Bad command", e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
