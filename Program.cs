@@ -97,8 +97,12 @@ public class FTPConsole
                 {
                     op = Int32.MaxValue;
                 }
-                else op = Convert.ToInt32(line);
+                else { 
+                    op = Convert.ToInt32(line); 
+                }
+                
                 switch (op)
+                
                 {
                     case 2:
                         DownloadMenu downloadMenu = new DownloadMenu();
