@@ -68,7 +68,9 @@ namespace FTP_console.Misc
                             bad_command = true;
                             throw new MissingFieldException("Directory doesn't exist!");
                         }
-                        else path = path + command.Substring(3) + @"\";
+                        else { 
+                            path = path + command.Substring(3) + @"\"; 
+                        }
 
                     }
 

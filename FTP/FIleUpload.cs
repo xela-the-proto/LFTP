@@ -21,6 +21,7 @@ namespace FTP_console.FTP
             Console.WriteLine("retrieving list of files from server...");
 
             string[] item = client.GetNameListing(@"\");
+            
 
             for (int i = 0; i < item.Length; i++)
             {
@@ -55,7 +56,6 @@ namespace FTP_console.FTP
                 {
                     formatted_percentage = string.Format("{0:N2}", p.Progress);
                     Console.WriteLine(formatted_percentage + "%");
-                    //Console.WriteLine("\r{0}%", p.Progress);
                 }
             };
 
