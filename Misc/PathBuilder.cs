@@ -1,4 +1,5 @@
 ﻿using FluentFTP;
+using System.Globalization;
 
 namespace FTP_console.Misc
 {
@@ -7,7 +8,7 @@ namespace FTP_console.Misc
         private string command;
         private string[] item;
         private string path;
-        private string path_check;
+
         private bool browsing = true;
         private bool bad_command;
 
@@ -46,11 +47,11 @@ namespace FTP_console.Misc
 
                     if (command.TrimStart().Equals("cd ..", StringComparison.OrdinalIgnoreCase))
                     {
-                        int last_index = path.LastIndexOf(@"\");
+                        int last_index = path.LastIndexOf(@"\", StringComparison.InvariantCulture);
 
                         if (last_index >= 0)
                         {
-                            int second_last_index = path.LastIndexOf(@"\", last_index - 1);
+                            int second_last_index = path.LastIndexOf(@"\", last_index - 1, StringComparison.InvariantCulture);
                             if (second_last_index >= 0)
                             {
                                 path = path.Substring(0, second_last_index + 1);
@@ -61,6 +62,7 @@ namespace FTP_console.Misc
                     }
                     else if (command.TrimStart().StartsWith("cd", StringComparison.OrdinalIgnoreCase))
                     {
+                        string path_check;
                         item = client.GetNameListing(command.Substring(3));
                         path_check = path + command.Substring(3) + @"\";
                         if (!client.DirectoryExists(path_check))

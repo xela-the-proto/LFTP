@@ -13,9 +13,6 @@ namespace FTP_console.FTP
         public Stopwatch upload_file(FtpClient client)
         {
             string path;
-            string confirmation;
-            bool overwrite = false;
-            bool verify = false;
             PathBuilder builder = new PathBuilder();
 
             Console.WriteLine("retrieving list of files from server...");
@@ -36,8 +33,6 @@ namespace FTP_console.FTP
             Console.WriteLine("select file to upload");
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.ShowDialog();
-
-            long size = client.GetFileSize(openFileDialog.FileName);
 
             Console.WriteLine("uploading...");
             file_path = openFileDialog.FileName;

@@ -15,7 +15,7 @@ namespace FTP_console.FTP
             try
             {
                 StreamReader file = File.OpenText(".\\Config\\FTP_Config.json");
-                Stopwatch stopwatch = new Stopwatch();
+                Stopwatch stopwatch;
                 JsonSerializer serializer = new JsonSerializer();
                 FTP_Json? ftp_config = serializer.Deserialize(file, typeof(FTP_Json)) as FTP_Json;
 
@@ -63,8 +63,12 @@ namespace FTP_console.FTP
                         break;
 
                     default:
+                        throw new NotSupportedException();
                         break;
                 }
+            }catch(NotSupportedException e)
+            {
+                System.Windows.Forms.MessageBox.Show("Bad command", e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception e)
             {
