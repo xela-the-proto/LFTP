@@ -1,8 +1,7 @@
 ﻿using FTP_console.Config;
 using FTP_console.Menus;
 using Newtonsoft.Json;
-using System.Windows.Forms;
-
+using System.IO;
 public class FTPConsole
 {
     public static void Main(string[] args)

@@ -3,6 +3,7 @@ using FluentFTP.Exceptions;
 using FTP_console.Config;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace FTP_console.FTP

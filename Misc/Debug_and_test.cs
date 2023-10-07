@@ -8,8 +8,7 @@ namespace FTP_console.Misc
 {
     internal class Debug_and_test
     {
-        void NAVIGATE_TEST()
-        {
+        void NAVIGATE_TEST() { 
 
         }
     }
