@@ -4,8 +4,15 @@ using Newtonsoft.Json;
 using System.IO;
 public class FTPConsole
 {
+    /// <summary>
+    /// Main method
+    /// this method handles the first boot of the software and taking in a parameter if its started
+    /// from the console
+    /// </summary>
+    /// <param name="args"></param>
     public static void Main(string[] args)
     {   
+        //detect if we have any args at startup and init in the way we need
         if (args.Length == 0)
         {
             var t = new Thread(() => init());
@@ -21,6 +28,11 @@ public class FTPConsole
         
     }
 
+    /// <summary>
+    /// this method starts checking that required files exist and also detects if we are in debug mode
+    /// or any other argument passed via the cmd
+    /// </summary>
+    /// <param name="arg_1"></param>
     public static void init(string arg_1)
     {
         if (arg_1 == "-d")
@@ -35,7 +47,7 @@ public class FTPConsole
                 {
                     verbose = true
                 };
-                //first init
+                //check files for settings
                 if (!File.Exists(".\\Config\\Settings_Config.json"))
                 {
                     if (!Directory.Exists(".\\Config"))
@@ -55,7 +67,7 @@ public class FTPConsole
                         serializer.Serialize(file, settings_config);
                     }
                 }
-
+                //check files for config
                 if (!File.Exists(".\\Config\\FTP_Config.json"))
                 {
                     if (!Directory.Exists(".\\Config"))
@@ -86,6 +98,7 @@ public class FTPConsole
                     }
                 }
 
+                //start the main menu
                 int op = 0;
                 string line;
                 Console.WriteLine("Select which operation you would like to use");
@@ -102,7 +115,6 @@ public class FTPConsole
                 }
                 
                 switch (op)
-                
                 {
                     case 2:
                         DownloadMenu downloadMenu = new DownloadMenu();
@@ -135,6 +147,9 @@ public class FTPConsole
         }
     }
 
+    /// <summary>
+    /// init method but without any args passed in 
+    /// </summary>
     public static void init()
     {
         while (true)
@@ -145,7 +160,7 @@ public class FTPConsole
                 {
                     verbose = true
                 };
-                //first init
+                //check files for settings
                 if (!File.Exists(".\\Config\\Settings_Config.json"))
                 {
                     if (!Directory.Exists(".\\Config"))
@@ -165,7 +180,7 @@ public class FTPConsole
                         serializer.Serialize(file, settings_config);
                     }
                 }
-
+                //check files for config
                 if (!File.Exists(".\\Config\\FTP_Config.json"))
                 {
                     if (!Directory.Exists(".\\Config"))
@@ -195,7 +210,7 @@ public class FTPConsole
                         MessageBox.Show("!!!IF THIS IS THE FIRST TIME YOU START UP THIS APPLICATION GO INTO THE CONFIG FOLDER AND WRITE YOUR FTP LOGIN DETAILS INTO THE JSON FILE!!! \n If you see this message even if the file was created and was modified leave an issue on the Github page!", "Caution!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
-
+                //main menu startup
                 int op = 0;
                 string line;
                 Console.WriteLine("Select which operation you would like to use");

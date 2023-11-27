@@ -6,10 +6,18 @@ using System.Windows.Forms;
 
 namespace FTP_console.FTP
 {
+    /// <summary>
+    /// this class handles file upload 
+    /// </summary>
     public class FileUpload
     {
         public string file_path { get; set; }
 
+        /// <summary>
+        /// uploads a file with the ftp lib with an already initialized <c>FtpClient</c>
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns>How much it took with a <c>Stopwatch</c> method </returns>
         public Stopwatch upload_file(FtpClient client)
         {
             string path;

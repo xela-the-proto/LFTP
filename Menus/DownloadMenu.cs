@@ -6,7 +6,11 @@ namespace FTP_console.Menus
     internal class DownloadMenu
     {
         private static string type_of_op = "D";
-
+        /// <summary>
+        /// Handle ui to choose how to connect
+        /// </summary>
+        /// <param name="verbose"></param>
+        /// <exception cref="InvalidOperationException"></exception>
         public void download_menu_UI(bool verbose)
         {
             int op = 0;
