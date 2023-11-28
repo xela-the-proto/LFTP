@@ -37,6 +37,9 @@ namespace FTP_console.Menus
 
                     connection.connection_manager(client, verbose, type_of_op);
                     break;
+                default:
+                    throw new InvalidOperationException("Unexpected value");
+                    break;
             }
         }
     }

@@ -7,6 +7,5 @@
         public string username { get; set; }
         public string password { get; set; }
         public List<string> logon_type { get; set; }
-        public bool SFTP { get; set; }
     }
 }
