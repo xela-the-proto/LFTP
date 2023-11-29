@@ -40,8 +40,11 @@ namespace FTP_console.FTP
                 //grab the config from the json file we deserialized before
                 
                 //FtpClient client = new FtpClient(ftp_config.host, ftp_config.username, ftp_config.password, ftp_config.port);
+                FtpClient client = new FtpClient(ftp_config.host, ftp_config.username, ftp_config.password, ftp_config.port);
+
 
                 FtpClient client = new FtpClient(ftp_config.host,ftp_config.username,ftp_config.password,ftp_config.port);
+
 
                 Console.WriteLine("Connecting on " + client.Host + " with port " + client.Port);
                 
@@ -69,6 +72,7 @@ namespace FTP_console.FTP
 
                 if (verbose)
                 {
+
                     //if we enable verbose cmd we output some info
                     Console.WriteLine("FTP is running on " + client.SystemType + " with connection type " + client.ConnectionType.ToString());
                     Console.WriteLine("List of server functions: ");

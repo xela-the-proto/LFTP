@@ -14,6 +14,7 @@ namespace FTP_console.Misc
 
         /// <summary>
         /// Used to build a path acceptable for the library with the legacy cmd commands 
+        /// with string manipualtion
         /// </summary>
         /// <param name="client"></param>
         /// <returns></returns>
@@ -40,13 +41,14 @@ namespace FTP_console.Misc
                     
                     command = Console.ReadLine();
 
-
+                    //check command
                     if (!command.StartsWith("cd") && !command.StartsWith("cd ..") && !command.StartsWith("download") && 
                         command != "upload" && command != "dir")
                     {
                         throw new FormatException(@"Bad command! only supported commands are cd, cd .., download, upload");
                     }
 
+                    //if its cd.. go up 
                     if (command.TrimStart().Equals("cd ..", StringComparison.OrdinalIgnoreCase))
                     {
                         int last_index = path.LastIndexOf(@"\", StringComparison.InvariantCulture);
@@ -62,6 +64,7 @@ namespace FTP_console.Misc
 
                         item = client.GetNameListing(path);
                     }
+                    //if its cd folder build a new path to send to the server
                     else if (command.TrimStart().StartsWith("cd", StringComparison.OrdinalIgnoreCase))
                     {
                         string path_check;
@@ -86,16 +89,19 @@ namespace FTP_console.Misc
                         }
                     }
 
+                    //break from the cycle and get the file to download
                     if (command.StartsWith("download"))
                     {
                         path = path + command.Substring(9);
                         browsing = false;
                     }
+                    //break from the cycle and get the path were to upload
                     if(command == "upload")
                     {
                         browsing = false;
                     }
 
+                    
                     if (!browsing)
                     {
                         break;

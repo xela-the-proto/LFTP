@@ -6,7 +6,10 @@ namespace FTP_console.Menus
     internal class UploadMenu
     {
         private static string type_of_op = "U";
-
+        /// <summary>
+        /// Handle ui to choose how to connect
+        /// </summary>
+        /// <param name="verbose"></param>
         public void upload_menu_UI(bool verbose)
         {
             int op = 0;

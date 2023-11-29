@@ -1,15 +1,22 @@
-﻿using FluentFTP;
+﻿using FluentFTP;   /// <summary>
+    /// this class handles file download 
+    /// </summary>
 using FTP_console.Misc;
 using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace FTP_console.FTP
 {
+ 
     internal class FileDownload
     {
         //TODO: MAKE A BETTER DOWNLAOD MENU
         public long file_size { get; set; }
-
+        /// <summary>
+        /// downloads a file with the ftp lib with an already initialized <c>FtpClient</c>
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns>How much it took with a <c>Stopwatch</c> method </returns>
         public Stopwatch download_file(FtpClient client)
         {
             Stopwatch timer = new Stopwatch();
