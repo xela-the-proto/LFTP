@@ -10,11 +10,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentFTP" Version="48.0.0" />
+      <PackageReference Include="FluentFTP" Version="48.0.3" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
-      <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-      <PackageReference Include="System.Security.Permissions" Version="7.0.0" />
+      <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+      <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
+      <PackageReference Include="System.Security.Permissions" Version="8.0.0" />
     </ItemGroup>
 
 
