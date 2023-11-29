@@ -1,11 +1,11 @@
 ﻿using FluentFTP;
 using FluentFTP.Exceptions;
 using FTP_console.Config;
+using FTP_console.Misc;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.IO;
-using System.Windows.Forms;
 
 namespace FTP_console.FTP
 {
@@ -14,6 +14,8 @@ namespace FTP_console.FTP
     /// </summary>
     internal class FTP_Connection
     {
+        ColorConsole color = new ColorConsole();
+
         /// <summary>
         /// Tries to connect to the ftp server and then goes to either <c>FileUpload</c> or <c>FileDownload</c> to upload/download data
         /// </summary>
@@ -103,11 +105,13 @@ namespace FTP_console.FTP
                 }
             }catch(NotSupportedException e)
             {
-                System.Windows.Forms.MessageBox.Show("Bad command", e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                color.PrintColor("Bad command!", ConsoleColor.Red, true);
+                //System.Windows.Forms.MessageBox.Show("Bad command", e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception e)
             {
-                System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                color.PrintColor(e.Message, ConsoleColor.Red, true);
+                //System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -166,7 +170,8 @@ namespace FTP_console.FTP
             }
             catch (Exception e)
             {
-                System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                color.PrintColor(e.Message, ConsoleColor.Red, true);
+                //System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -233,7 +238,8 @@ namespace FTP_console.FTP
             }
             catch (Exception e)
             {
-                System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                color.PrintColor(e.Message, ConsoleColor.Red, true);
+                //System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
