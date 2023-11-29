@@ -42,8 +42,10 @@ namespace FTP_console.FTP
                     Console.WriteLine(item[i]);
                 }
 
+                Console.Clear();
                 Console.WriteLine("To download a file type download [insert the name of file / folder]");
                 Console.WriteLine("Or type cd [insert folder name here] to navigate down a folder and cd .. to go to the top root folder");
+                Console.WriteLine("Type dir to list all the files and folders in the current directory");
 
 
                 path = builder.build_path(client);

@@ -12,6 +12,11 @@ namespace FTP_console.Misc
         private bool browsing = true;
         private bool bad_command;
 
+        /// <summary>
+        /// Used to build a path acceptable for the library with the legacy cmd commands 
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
         public string build_path(FtpClient client)
         {
             path = @"\";
@@ -21,6 +26,9 @@ namespace FTP_console.Misc
                 {
                     
                     //TODO: FIND A BETTER WAY TO BROWSE
+                    //or i wont bc i cant figure out the navigate thing from the library
+
+                    //check if for some reason the switch for a bad command is turned on and turns it back off before listing the root of the folder
                     if (bad_command)
                     {
                         bad_command = false;
@@ -28,19 +36,13 @@ namespace FTP_console.Misc
                         {
                             path = @"\";
                         }
-                        item = client.GetNameListing(path);
-                        for (int i = 0; i < item.Length; i++)
-                        {
-                            Console.WriteLine(item[i]);
-                        }
-                        
                     }
                     
                     command = Console.ReadLine();
 
 
                     if (!command.StartsWith("cd") && !command.StartsWith("cd ..") && !command.StartsWith("download") && 
-                        command != "upload")
+                        command != "upload" && command != "dir")
                     {
                         throw new FormatException(@"Bad command! only supported commands are cd, cd .., download, upload");
                     }
@@ -75,6 +77,14 @@ namespace FTP_console.Misc
                         }
 
                     }
+                    if(command.TrimStart().Equals("dir", StringComparison.OrdinalIgnoreCase))
+                    {
+                        item = client.GetNameListing(path);
+                        for (int i = 0; i < item.Length; i++)
+                        {
+                            Console.WriteLine(item[i]);
+                        }
+                    }
 
                     if (command.StartsWith("download"))
                     {
@@ -85,13 +95,10 @@ namespace FTP_console.Misc
                     {
                         browsing = false;
                     }
-                    for (int i = 0; i < item.Length; i++)
+
+                    if (!browsing)
                     {
-                        if (!browsing)
-                        {
-                            break;
-                        }
-                        Console.WriteLine(item[i]);
+                        break;
                     }
                 }
                 catch (MissingFieldException e)

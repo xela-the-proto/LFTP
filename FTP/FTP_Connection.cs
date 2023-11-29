@@ -53,7 +53,6 @@ namespace FTP_console.FTP
                 {
                     client.Config.EncryptionMode = FtpEncryptionMode.Explicit;
                     client.Config.ValidateAnyCertificate = true;
-                    Console.WriteLine(client.Host + "<----");
                     client.Connect();
                 }
                 else if (confirmation == "n")
@@ -70,7 +69,7 @@ namespace FTP_console.FTP
 
                 if (verbose)
                 {
-                    //if we enabled verbose cmd we output some info
+                    //if we enable verbose cmd we output some info
                     Console.WriteLine("FTP is running on " + client.SystemType + " with connection type " + client.ConnectionType.ToString());
                     Console.WriteLine("List of server functions: ");
                     for (int i = 0; i < client.Capabilities.Count; i++)
@@ -170,5 +169,73 @@ namespace FTP_console.FTP
                 System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-    }
+
+
+        public FtpClient connection_manager(bool verbose)
+        {
+            try
+            {
+                FTP_Json? ftp_config = JsonConvert.DeserializeObject<FTP_Json>(File.ReadAllText(".\\Config\\FTP_Config.json"));
+
+                //check if the class exists if not somethings up with the file
+                if (ftp_config == null)
+                {
+                    throw new AccessViolationException("Configuration file is unredable or corrupted");
+                }
+
+                FtpConfig config = new FtpConfig();
+                config.Navigate = FtpNavigate.SemiAuto;
+                //grab the config from the json file we deserialized before
+
+                //FtpClient client = new FtpClient(ftp_config.host, ftp_config.username, ftp_config.password, ftp_config.port);
+
+                FtpClient client = new FtpClient(ftp_config.host, ftp_config.username, ftp_config.password, ftp_config.port);
+
+                Console.WriteLine("Connecting on " + client.Host + " with port " + client.Port);
+
+                Console.WriteLine("use ssl? [Y/N]:");
+                var confirmation = Console.ReadLine();
+                confirmation.ToLower();
+
+                if (confirmation == "y")
+                {
+                    client.Config.EncryptionMode = FtpEncryptionMode.Explicit;
+                    client.Config.ValidateAnyCertificate = true;
+                    client.Connect();
+                }
+                else if (confirmation == "n")
+                {
+                    client.Config.EncryptionMode = FtpEncryptionMode.None;
+                    client.Connect();
+                }
+                else
+                {
+                    client.Config.EncryptionMode = FtpEncryptionMode.Auto;
+                    client.Config.ValidateAnyCertificate = true;
+                    client.Connect();
+                }
+
+                if (verbose)
+                {
+                    Console.WriteLine("FTP is running on " + client.SystemType + " with connection type " + client.ConnectionType);
+                    Console.WriteLine("List of server capabilities: ");
+                    for (int i = 0; i < client.Capabilities.Count; i++)
+                    {
+                        Console.Write(client.Capabilities[i].ToString());
+                    }
+                    Console.WriteLine("Using protocol " + client.InternetProtocol.ToString());
+                }
+                Thread.Sleep(2000);
+
+                
+
+                return client;
+            }
+            catch (Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+    }  
 }
