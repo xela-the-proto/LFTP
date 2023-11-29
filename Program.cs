@@ -1,6 +1,7 @@
 ﻿using FTP_console.Config;
 using FTP_console.Debug;
 using FTP_console.Menus;
+using FTP_console.Misc;
 using Newtonsoft.Json;
 using System.IO;
 public class FTPConsole
@@ -53,14 +54,13 @@ public class FTPConsole
     /// </summary>
     public static void init()
     {
+        ColorConsole color = new ColorConsole();
         while (true)
         {
             try
             {
-                Config_Json settings_config = new Config_Json
-                {
-                    verbose = true
-                };
+                Config_Json config_to_serialize = new Config_Json();
+                
                 //check files for settings
                 if (!File.Exists(".\\Config\\Settings_Config.json"))
                 {
@@ -69,18 +69,22 @@ public class FTPConsole
                         Directory.CreateDirectory(".\\Config");
                     }
 
-                    if (settings_config.verbose)
-                    {
-                        Console.WriteLine("Loading Settings config files");
-                    }
-
                     using (StreamWriter file = File.CreateText(".\\Config\\Settings_Config.json"))
                     {
                         JsonSerializer serializer = new JsonSerializer();
                         serializer.Formatting = Formatting.Indented;
-                        serializer.Serialize(file, settings_config);
-                    }
+                        serializer.Serialize(file, config_to_serialize);
+                    } 
                 }
+                //we read after creatign or if its already tehre good enough to set the colors immediately
+                Config_Json config = JsonConvert.DeserializeObject<Config_Json>(File.ReadAllText(".\\Config\\Settings_Config.json"));
+                color.SetColor(config.color);
+
+                if (config.verbose)
+                {
+                    Console.WriteLine("Loading Settings config files");
+                }
+
                 //check files for config
                 if (!File.Exists(".\\Config\\FTP_Config.json"))
                 {
@@ -98,7 +102,7 @@ public class FTPConsole
                         username = "anonymous"
                     };
 
-                    if (settings_config.verbose)
+                    if (config.verbose)
                     {
                         Console.WriteLine("Loading FTP config files");
                     }
@@ -108,7 +112,10 @@ public class FTPConsole
                         JsonSerializer serializer = new JsonSerializer();
                         serializer.Formatting = Formatting.Indented;
                         serializer.Serialize(file, ftp_config);
-                        MessageBox.Show("!!!IF THIS IS THE FIRST TIME YOU START UP THIS APPLICATION GO INTO THE CONFIG FOLDER AND WRITE YOUR FTP LOGIN DETAILS INTO THE JSON FILE!!! \n If you see this message even if the file was created and was modified leave an issue on the Github page!", "Caution!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        color.PrintColor("!!!IF THIS IS THE FIRST TIME YOU START UP THIS APPLICATION GO INTO THE CONFIG FOLDER AND WRITE YOUR FTP LOGIN DETAILS INTO THE JSON FILE!!! \n If you see this message even if the file was created and was modified leave an issue on the Github page!", ConsoleColor.Yellow);
+                        //MessageBox.Show("!!!IF THIS IS THE FIRST TIME YOU START UP THIS APPLICATION GO INTO THE CONFIG FOLDER AND WRITE YOUR FTP LOGIN DETAILS INTO THE JSON FILE!!! \n If you see this message even if the file was created and was modified leave an issue on the Github page!", "Caution!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                     }
                 }
                 //main menu startup
@@ -128,12 +135,12 @@ public class FTPConsole
                 {
                     case 2:
                         DownloadMenu downloadMenu = new DownloadMenu();
-                        downloadMenu.download_menu_UI(settings_config.verbose);
+                        downloadMenu.download_menu_UI(config.verbose);
                         break;
 
                     case 1:
                         UploadMenu uploadMenu = new UploadMenu();
-                        uploadMenu.upload_menu_UI(settings_config.verbose);
+                        uploadMenu.upload_menu_UI(config.verbose);
                         break;
 
                     case 0:
@@ -147,7 +154,8 @@ public class FTPConsole
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                color.PrintColor(e.Message, ConsoleColor.Red, true);
+                //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

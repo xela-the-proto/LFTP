@@ -1,15 +1,17 @@
-﻿using FluentFTP;   /// <summary>
-    /// this class handles file download 
-    /// </summary>
+﻿using FluentFTP;
 using FTP_console.Misc;
+using Microsoft.Win32;
 using System.Diagnostics;
-using System.Windows.Forms;
 
 namespace FTP_console.FTP
 {
- 
+
+    /// <summary>
+    /// this class handles file download 
+    /// </summary>
     internal class FileDownload
     {
+        ColorConsole color = new ColorConsole();
         //TODO: MAKE A BETTER DOWNLAOD MENU
         public long file_size { get; set; }
         /// <summary>
@@ -71,7 +73,8 @@ namespace FTP_console.FTP
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, e.TargetSite.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                color.PrintColor(e.Message, ConsoleColor.Red , true);
+                //MessageBox.Show(e.Message, e.TargetSite.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return timer;

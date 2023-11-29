@@ -5,3 +5,10 @@
 
 
 **L**ightweight **F**ile **T**ransfer **P**rotocol is a barebones FTP client on console developed in c#. It's aim is to become a quick alternative to software like filezilla not to replace them
+
+# Settings
+
+### Verbose (boolean)
+sets if the output in console should be verbose or normal 
+### Color (enum)
+sets the default color of the console (for color codes look into [this microsoft article](https://learn.microsoft.com/en-us/dotnet/api/system.consolecolor?view=net-8.0)
