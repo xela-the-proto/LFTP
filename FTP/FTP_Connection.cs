@@ -41,11 +41,7 @@ namespace FTP_console.FTP
                 
                 //FtpClient client = new FtpClient(ftp_config.host, ftp_config.username, ftp_config.password, ftp_config.port);
                 FtpClient client = new FtpClient(ftp_config.host, ftp_config.username, ftp_config.password, ftp_config.port);
-
-
-                FtpClient client = new FtpClient(ftp_config.host,ftp_config.username,ftp_config.password,ftp_config.port);
-
-
+                
                 Console.WriteLine("Connecting on " + client.Host + " with port " + client.Port);
                 
                 Console.WriteLine("use ssl? [Y/N]:");
