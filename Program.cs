@@ -41,7 +41,7 @@ public class FTPConsole
             Console.WriteLine("you seem to have started the program witha debug flag are you sure you want to run in debug mode? [Y/N]");
             var confirmation = Console.ReadLine();
             confirmation.ToLower();
-            if(confirmation == "y")
+            if (confirmation.Equals("y", StringComparison.OrdinalIgnoreCase))
             {
                 Debug_and_test debug = new Debug_and_test();
                 debug.debug_1();
