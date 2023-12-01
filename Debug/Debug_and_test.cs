@@ -1,6 +1,4 @@
-﻿
-using FTP_console.Misc;
-using Gtk;
+﻿using FTP_console.Misc;
 
 namespace FTP_console.Debug
 {

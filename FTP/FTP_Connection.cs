@@ -4,8 +4,6 @@ using FTP_console.Config;
 using FTP_console.Misc;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
-using System.IO;
 
 namespace FTP_console.FTP
 {

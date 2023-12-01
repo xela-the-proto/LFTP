@@ -1,9 +1,6 @@
 ﻿using FluentFTP;
 using FTP_console.Misc;
 using System.Diagnostics;
-using Microsoft.Win32;
-
-using System.IO;
 
 namespace FTP_console.FTP
 {

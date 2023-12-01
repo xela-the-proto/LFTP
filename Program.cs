@@ -3,7 +3,6 @@ using FTP_console.Debug;
 using FTP_console.Menus;
 using FTP_console.Misc;
 using Newtonsoft.Json;
-using System.IO;
 public class FTPConsole
 {
     /// <summary>
