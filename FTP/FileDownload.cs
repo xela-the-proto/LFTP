@@ -70,7 +70,7 @@ namespace FTP_console.FTP
             }
             catch (Exception e)
             {
-                color.PrintColor(e.Message, ConsoleColor.Red , true);
+                color.PrintColor(e.Message, ConsoleColor.Red);
                 //MessageBox.Show(e.Message, e.TargetSite.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 

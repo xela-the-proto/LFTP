@@ -153,7 +153,7 @@ public class FTPConsole
             }
             catch (Exception e)
             {
-                color.PrintColor(e.Message, ConsoleColor.Red, true);
+                color.PrintColor(e.Message, ConsoleColor.Red);
                 //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
