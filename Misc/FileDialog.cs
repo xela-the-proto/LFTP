@@ -10,6 +10,7 @@ namespace FTP_console.Misc
 {
     internal class FileDialog
     {
+        public string file_name { get; set; }
         public string OpenFileDialog()
         {
             Application.Init();
@@ -24,6 +25,9 @@ namespace FTP_console.Misc
             if (response == Gtk.ResponseType.Ok)
             {
                 string file_path = file.Filename;
+                //god help the soul of whoever finds this
+                file_name = file.Filename.Substring(file.Filename.LastIndexOf('\\') + 1);
+
                 file.Destroy();
                 return file_path;
             }
@@ -34,7 +38,7 @@ namespace FTP_console.Misc
             }
         }
 
-        public void SaveFileDialog(byte[] array)
+        public string SaveFileDialog(string filename_ftp)
         {
             Application.Init();
 
@@ -43,18 +47,20 @@ namespace FTP_console.Misc
             file.AddButton(Stock.SaveAs, ResponseType.Ok);
             file.DefaultResponse = Gtk.ResponseType.Ok;
             file.SelectMultiple = false;
-
+            file.CurrentName = filename_ftp;
             Gtk.ResponseType response = (Gtk.ResponseType)file.Run();
             if (response == Gtk.ResponseType.Ok)
             {
                 string file_path = file.Filename;
-                
+                //same as above
+                file_name = file.Filename.Substring(file.Filename.LastIndexOf('\\') + 1);
                 file.Destroy();
-                File.WriteAllBytes(file_path, array);
+                return file_path;
             }
             else
             {
                 file.Destroy();
+                return "";
             }
         }
     }

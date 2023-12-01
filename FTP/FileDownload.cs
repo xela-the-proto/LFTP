@@ -22,7 +22,7 @@ namespace FTP_console.FTP
         public Stopwatch download_file(FtpClient client)
         {
             Stopwatch timer = new Stopwatch();
-            SaveFileDialog dialog = new SaveFileDialog();
+            FileDialog fileDialog = new FileDialog();
             PathBuilder builder = new PathBuilder();
             string path = "";
 
@@ -58,14 +58,12 @@ namespace FTP_console.FTP
 
 
                 path = builder.build_path(client);
-
-                Console.WriteLine(String.Format("Downloading..."));
-                dialog.Filter = "Any file (*.*) | *.*";
-                dialog.FileName = path.Split(@"\").Last();
-                dialog.ShowDialog();
+                string File_name = path.Substring(path.LastIndexOf('\\') + 1);
+                Console.WriteLine(("Downloading..."));
+                string local_path = fileDialog.SaveFileDialog(File_name);
                 timer.Start();
 
-                client.DownloadFile(dialog.FileName, path.TrimStart(), FtpLocalExists.Overwrite, FtpVerify.None, progress);
+                client.DownloadFile(local_path, path.TrimStart(), FtpLocalExists.Overwrite, FtpVerify.None, progress);
 
                 timer.Stop();
 

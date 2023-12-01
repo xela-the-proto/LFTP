@@ -40,11 +40,10 @@ namespace FTP_console.FTP
             path = builder.build_path(client);
 
             Console.WriteLine("select file to upload");
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.ShowDialog();
-
+            FileDialog dialog = new FileDialog();
+           
             Console.WriteLine("uploading...");
-            file_path = openFileDialog.FileName;
+            file_path = dialog.OpenFileDialog();
 
             Stopwatch upload_time = new Stopwatch();
             upload_time.Start();
@@ -64,7 +63,7 @@ namespace FTP_console.FTP
             };
 
             // upload a file with progress tracking
-            client.UploadFile(openFileDialog.FileName, path + "/" + openFileDialog.SafeFileName, FtpRemoteExists.Overwrite, true, FtpVerify.None, progress);
+            client.UploadFile(file_path, path + dialog.file_name, FtpRemoteExists.Overwrite, true, FtpVerify.None, progress);
 
             return upload_time;
         }
