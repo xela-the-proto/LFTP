@@ -5,6 +5,9 @@
 
 
 **L**ightweight **F**ile **T**ransfer **P**rotocol is a barebones FTP client on console developed in c#. It's aim is to become a quick alternative to software like filezilla not to replace them
+# Install
+
+Please install the [Mono and GTK#](https://www.mono-project.com/download/stable/) and the [.net **desktop runtime** ](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-7.0.14-windows-x64-installer) if on windows or the [.net **runtime**](https://dotnet.microsoft.com/en-us/download/dotnet/scripts) if on any other type of system (follow the instructions from the docs that microsoft provide with a link on the page)
 
 # Settings
 
