@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Media;
 
 namespace FTP_console.Misc
 {
@@ -27,16 +22,14 @@ namespace FTP_console.Misc
         /// <param name="String"></param>
         /// <param name="color"></param>
         /// <param name="sound"></param>
+        /*
         public void PrintColor(string String, ConsoleColor color,bool sound)
         {
             Console.ForegroundColor = color;
             Console.WriteLine(String);
             Console.ForegroundColor = ConsoleColor.White;
-            if (sound)
-            {
-                SystemSounds.Exclamation.Play();
-            }
         }
+        */
 
         public void SetColor(ConsoleColor color)
         {

@@ -1,5 +1,4 @@
 ﻿using FluentFTP;
-using System.Globalization;
 
 namespace FTP_console.Misc
 {

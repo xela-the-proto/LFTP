@@ -4,8 +4,6 @@ using FTP_console.Config;
 using FTP_console.Misc;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
-using System.IO;
 
 namespace FTP_console.FTP
 {
@@ -105,12 +103,12 @@ namespace FTP_console.FTP
                 }
             }catch(NotSupportedException e)
             {
-                color.PrintColor("Bad command!", ConsoleColor.Red, true);
+                color.PrintColor("Bad command!", ConsoleColor.Red);
                 //System.Windows.Forms.MessageBox.Show("Bad command", e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception e)
             {
-                color.PrintColor(e.Message, ConsoleColor.Red, true);
+                color.PrintColor(e.Message, ConsoleColor.Red);
                 //System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -170,7 +168,7 @@ namespace FTP_console.FTP
             }
             catch (Exception e)
             {
-                color.PrintColor(e.Message, ConsoleColor.Red, true);
+                color.PrintColor(e.Message, ConsoleColor.Red);
                 //System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -238,7 +236,7 @@ namespace FTP_console.FTP
             }
             catch (Exception e)
             {
-                color.PrintColor(e.Message, ConsoleColor.Red, true);
+                color.PrintColor(e.Message, ConsoleColor.Red);
                 //System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
