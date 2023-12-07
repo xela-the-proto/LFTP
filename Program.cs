@@ -15,15 +15,11 @@ public class FTPConsole
         //detect if we have any args at startup and init in the way we need
         if (args.Length == 0)
         {
-            var t = new Thread(() => init());
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();
+            init();
         }
         else
         {
-            var t = new Thread(() => init(args[0]));
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();
+            init(args[0]);
         }
         
     }
