@@ -20,7 +20,7 @@ namespace FTP_console.Misc
             {
                 string file_path = file.Filename;
                 //god help the soul of whoever finds this
-                file_name = file.Filename.Substring(file.Filename.LastIndexOf('\\') + 1);
+                file_name = file.Filename.Substring(file.Filename.LastIndexOf('/') + 1);
 
                 file.Destroy();
                 return file_path;
@@ -47,7 +47,7 @@ namespace FTP_console.Misc
             {
                 string file_path = file.Filename;
                 //same as above
-                file_name = file.Filename.Substring(file.Filename.LastIndexOf('\\') + 1);
+                file_name = file.Filename.Substring(file.Filename.LastIndexOf('/') + 1);
                 file.Destroy();
                 return file_path;
             }

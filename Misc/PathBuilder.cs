@@ -19,7 +19,7 @@ namespace FTP_console.Misc
         /// <returns></returns>
         public string build_path(FtpClient client)
         {
-            path = @"\";
+            path = @"/";
             while (browsing)
             {
                 try
@@ -34,7 +34,7 @@ namespace FTP_console.Misc
                         bad_command = false;
                         if (path == null)
                         {
-                            path = @"\";
+                            path = @"/";
                         }
                     }
                     
@@ -50,11 +50,11 @@ namespace FTP_console.Misc
                     //if its cd.. go up 
                     if (command.TrimStart().Equals("cd ..", StringComparison.OrdinalIgnoreCase))
                     {
-                        int last_index = path.LastIndexOf(@"\", StringComparison.InvariantCulture);
+                        int last_index = path.LastIndexOf(@"/", StringComparison.InvariantCulture);
 
                         if (last_index >= 0)
                         {
-                            int second_last_index = path.LastIndexOf(@"\", last_index - 1, StringComparison.InvariantCulture);
+                            int second_last_index = path.LastIndexOf(@"/", last_index - 1, StringComparison.InvariantCulture);
                             if (second_last_index >= 0)
                             {
                                 path = path.Substring(0, second_last_index + 1);
@@ -68,14 +68,14 @@ namespace FTP_console.Misc
                     {
                         string path_check;
                         item = client.GetNameListing(command.Substring(3));
-                        path_check = path + command.Substring(3) + @"\";
+                        path_check = path + command.Substring(3) + @"/";
                         if (!client.DirectoryExists(path_check))
                         {
                             bad_command = true;
                             throw new MissingFieldException("Directory doesn't exist!");
                         }
                         else { 
-                            path = path + command.Substring(3) + @"\"; 
+                            path = path + command.Substring(3) + @"/"; 
                         }
 
                     }

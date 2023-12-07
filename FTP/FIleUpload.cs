@@ -23,7 +23,7 @@ namespace FTP_console.FTP
 
             Console.WriteLine("retrieving list of files from server...");
 
-            string[] item = client.GetNameListing(@"\");
+            string[] item = client.GetNameListing(@"/");
             
 
             for (int i = 0; i < item.Length; i++)
