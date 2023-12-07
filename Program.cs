@@ -15,15 +15,11 @@ public class FTPConsole
         //detect if we have any args at startup and init in the way we need
         if (args.Length == 0)
         {
-            var t = new Thread(() => init());
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();
+            init();
         }
         else
         {
-            var t = new Thread(() => init(args[0]));
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();
+            init(args[0]);
         }
         
     }
@@ -61,14 +57,14 @@ public class FTPConsole
                 Config_Json config_to_serialize = new Config_Json();
                 
                 //check files for settings
-                if (!File.Exists(".\\Config\\Settings_Config.json"))
+                if (!File.Exists(@"./Config/Settings_Config.json"))
                 {
-                    if (!Directory.Exists(".\\Config"))
+                    if (!Directory.Exists(@"./Config"))
                     {
-                        Directory.CreateDirectory(".\\Config");
+                        Directory.CreateDirectory(@"./Config");
                     }
 
-                    using (StreamWriter file = File.CreateText(".\\Config\\Settings_Config.json"))
+                    using (StreamWriter file = File.CreateText(@"./Config/Settings_Config.json"))
                     {
                         JsonSerializer serializer = new JsonSerializer();
                         serializer.Formatting = Formatting.Indented;
@@ -76,7 +72,7 @@ public class FTPConsole
                     } 
                 }
                 //we read after creatign or if its already tehre good enough to set the colors immediately
-                Config_Json config = JsonConvert.DeserializeObject<Config_Json>(File.ReadAllText(".\\Config\\Settings_Config.json"));
+                Config_Json config = JsonConvert.DeserializeObject<Config_Json>(File.ReadAllText(@"./Config/Settings_Config.json"));
                 color.SetColor(config.color);
 
                 if (config.verbose)
@@ -85,11 +81,11 @@ public class FTPConsole
                 }
 
                 //check files for config
-                if (!File.Exists(".\\Config\\FTP_Config.json"))
+                if (!File.Exists(@"./Config/FTP_Config.json"))
                 {
-                    if (!Directory.Exists(".\\Config"))
+                    if (!Directory.Exists(@"./Config"))
                     {
-                        Directory.CreateDirectory(".\\Config");
+                        Directory.CreateDirectory(@"./Config");
                     }
 
                     FTP_Json ftp_config = new FTP_Json
@@ -106,7 +102,7 @@ public class FTPConsole
                         Console.WriteLine("Loading FTP config files");
                     }
 
-                    using (StreamWriter file = File.CreateText(".\\Config\\FTP_Config.json"))
+                    using (StreamWriter file = File.CreateText(@"./Config/FTP_Config.json"))
                     {
                         JsonSerializer serializer = new JsonSerializer();
                         serializer.Formatting = Formatting.Indented;

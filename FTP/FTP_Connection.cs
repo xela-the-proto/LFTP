@@ -25,9 +25,9 @@ namespace FTP_console.FTP
         {
             try
             {
-                StreamReader file = File.OpenText(".\\Config\\FTP_Config.json");
+                StreamReader file = File.OpenText(@"./Config/FTP_Config.json");
                 Stopwatch stopwatch;
-                FTP_Json? ftp_config = JsonConvert.DeserializeObject<FTP_Json>(File.ReadAllText(".\\Config\\FTP_Config.json"));
+                FTP_Json? ftp_config = JsonConvert.DeserializeObject<FTP_Json>(File.ReadAllText(@"./Config/FTP_Config.json"));
 
                 //check if the class exists if not somethings up with the file
                 if (ftp_config == null)
@@ -178,7 +178,7 @@ namespace FTP_console.FTP
         {
             try
             {
-                FTP_Json? ftp_config = JsonConvert.DeserializeObject<FTP_Json>(File.ReadAllText(".\\Config\\FTP_Config.json"));
+                FTP_Json? ftp_config = JsonConvert.DeserializeObject<FTP_Json>(File.ReadAllText(@"./Config/FTP_Config.json"));
 
                 //check if the class exists if not somethings up with the file
                 if (ftp_config == null)
