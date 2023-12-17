@@ -11,12 +11,9 @@ namespace FTP_console.Debug
         public void debug_1()
         {
 
-            FileDialog dialog = new FileDialog();
-            
+            PopUp popUp = new PopUp();
 
-            Console.Write(dialog.OpenFileDialog() + dialog.file_name);
-
-
+            popUp.Popup(Gtk.DialogFlags.Modal, Gtk.MessageType.Error, Gtk.ButtonsType.OkCancel, "test");
             /*
             Application.Init();
             

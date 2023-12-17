@@ -2,7 +2,7 @@
 
 namespace FTP_console.Misc
 {
-    internal class FileDialog
+    internal class Dialogs
     {
         public string file_name { get; set; }
         public string OpenFileDialog()
@@ -56,6 +56,63 @@ namespace FTP_console.Misc
                 file.Destroy();
                 return "";
             }
+        }
+
+    }
+
+    public class PopUp
+    {
+
+        public void Popup(DialogFlags flags, MessageType messageType, ButtonsType buttonsType, string message)
+        {
+            string icon_path = "./Res/667.jpg";
+            string error;
+
+            switch (messageType)
+            {
+                case MessageType.Info:
+                    error = "Info";
+                    break;
+                case MessageType.Warning:
+                    error = "Warning";
+                    break;
+                case MessageType.Question:
+                    error = "Question";
+                    break;
+                case MessageType.Error:
+                    error = "Error";
+                    break;
+                case MessageType.Other:
+                    error = "Other";
+                    break;
+                default:
+                    error = "Error";
+                    break;
+            }
+            Application.Init();
+
+            // Create a new window
+            Window window = new Window(error);
+            window.SetDefaultSize(300, 200);
+            Gdk.Pixbuf icon = new Gdk.Pixbuf(icon_path);
+
+            // Create a new MessageDialog
+            MessageDialog dialog = new MessageDialog(
+                null,
+                flags,
+                messageType,
+                buttonsType,
+                message);
+            dialog.Icon = icon;
+            dialog.SetPosition(WindowPosition.CenterAlways);
+            // Set the title for the dialog
+            dialog.Title = error;
+
+            // Display the dialog and wait for a response
+            dialog.Run();
+            
+            // Close the dialog
+            dialog.Destroy();
         }
     }
 }

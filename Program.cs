@@ -49,6 +49,7 @@ public class FTPConsole
     /// </summary>
     public static void init()
     {
+        PopUp popUp = new PopUp();
         ColorConsole color = new ColorConsole();
         while (true)
         {
@@ -149,7 +150,8 @@ public class FTPConsole
             }
             catch (Exception e)
             {
-                color.PrintColor(e.Message, ConsoleColor.Red);
+                popUp.Popup(Gtk.DialogFlags.Modal, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, e.Message);
+                //color.PrintColor(e.Message, ConsoleColor.Red);
                 //MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

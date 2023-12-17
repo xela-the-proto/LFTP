@@ -21,8 +21,9 @@ namespace FTP_console.FTP
         public Stopwatch download_file(FtpClient client)
         {
             Stopwatch timer = new Stopwatch();
-            FileDialog fileDialog = new FileDialog();
+            Dialogs fileDialog = new Dialogs();
             PathBuilder builder = new PathBuilder();
+            PopUp popUp = new PopUp();
             string path = "";
 
             try
@@ -70,7 +71,8 @@ namespace FTP_console.FTP
             }
             catch (Exception e)
             {
-                color.PrintColor(e.Message, ConsoleColor.Red);
+                popUp.Popup(Gtk.DialogFlags.Modal,Gtk.MessageType.Error, Gtk.ButtonsType.Ok, e.Message);
+                //color.PrintColor(e.Message, ConsoleColor.Red);
                 //MessageBox.Show(e.Message, e.TargetSite.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 

@@ -20,49 +20,59 @@ namespace FTP_console.FTP
         {
             string path;
             PathBuilder builder = new PathBuilder();
-
-            Console.WriteLine("retrieving list of files from server...");
-
-            string[] item = client.GetNameListing(@"/");
-            
-
-            for (int i = 0; i < item.Length; i++)
+            PopUp popUp = new PopUp();
+            try
             {
-                Console.WriteLine(item[i]);
+                
+
+                Console.WriteLine("retrieving list of files from server...");
+
+                string[] item = client.GetNameListing(@"/");
+
+
+                for (int i = 0; i < item.Length; i++)
+                {
+                    Console.WriteLine(item[i]);
+                }
+
+                Console.WriteLine("To upload a file type upload when your in the right folder");
+                Console.WriteLine("Or type cd [insert folder name here] to navigate down a folder and cd .. to go to the top root folder");
+
+                path = builder.build_path(client);
+
+                Console.WriteLine("select file to upload");
+                Dialogs dialog = new Dialogs();
+
+                Console.WriteLine("uploading...");
+                file_path = dialog.OpenFileDialog();
+
+                Stopwatch upload_time = new Stopwatch();
+                upload_time.Start();
+
+                Action<FtpProgress> progress = delegate (FtpProgress p)
+                {
+                    string formatted_percentage;
+                    if (p.Progress == 1)
+                    {
+                        upload_time.Stop();
+                    }
+                    else
+                    {
+                        formatted_percentage = string.Format("{0:N2}", p.Progress);
+                        Console.WriteLine(formatted_percentage + "%");
+                    }
+                };
+
+                // upload a file with progress tracking
+                client.UploadFile(file_path, path + dialog.file_name, FtpRemoteExists.Overwrite, true, FtpVerify.None, progress);
+
+                return upload_time;
             }
-
-            Console.WriteLine("To upload a file type upload when your in the right folder");
-            Console.WriteLine("Or type cd [insert folder name here] to navigate down a folder and cd .. to go to the top root folder");
-
-            path = builder.build_path(client);
-
-            Console.WriteLine("select file to upload");
-            FileDialog dialog = new FileDialog();
-           
-            Console.WriteLine("uploading...");
-            file_path = dialog.OpenFileDialog();
-
-            Stopwatch upload_time = new Stopwatch();
-            upload_time.Start();
-
-            Action<FtpProgress> progress = delegate (FtpProgress p)
+            catch (Exception e)
             {
-                string formatted_percentage;
-                if (p.Progress == 1)
-                {
-                    upload_time.Stop();
-                }
-                else
-                {
-                    formatted_percentage = string.Format("{0:N2}", p.Progress);
-                    Console.WriteLine(formatted_percentage + "%");
-                }
-            };
-
-            // upload a file with progress tracking
-            client.UploadFile(file_path, path + dialog.file_name, FtpRemoteExists.Overwrite, true, FtpVerify.None, progress);
-
-            return upload_time;
+                popUp.Popup(Gtk.DialogFlags.Modal, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, e.Message);
+                throw;
+            }
         }
     }
 }

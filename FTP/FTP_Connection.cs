@@ -23,6 +23,7 @@ namespace FTP_console.FTP
         /// <exception cref="FtpException"></exception>
         public void connection_manager(bool verbose, string type_of_op)
         {
+            PopUp popUp = new PopUp();
             try
             {
                 StreamReader file = File.OpenText(@"./Config/FTP_Config.json");
@@ -103,12 +104,14 @@ namespace FTP_console.FTP
                 }
             }catch(NotSupportedException e)
             {
+                //popUp.Popup(Gtk.DialogFlags.Modal, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, "Bad command!");
                 color.PrintColor("Bad command!", ConsoleColor.Red);
                 //System.Windows.Forms.MessageBox.Show("Bad command", e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception e)
             {
-                color.PrintColor(e.Message, ConsoleColor.Red);
+                popUp.Popup(Gtk.DialogFlags.Modal, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, e.Message);
+                //color.PrintColor(e.Message, ConsoleColor.Red);
                 //System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -122,6 +125,7 @@ namespace FTP_console.FTP
         /// <param name="type_of_op"></param>
         public void connection_manager(FtpClient client, bool verbose, string type_of_op)
         {
+            PopUp popUp = new PopUp();
             try
             {
                 Stopwatch upload_time = new Stopwatch();
@@ -168,7 +172,7 @@ namespace FTP_console.FTP
             }
             catch (Exception e)
             {
-                color.PrintColor(e.Message, ConsoleColor.Red);
+                popUp.Popup(Gtk.DialogFlags.Modal, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, e.Message);
                 //System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -176,6 +180,7 @@ namespace FTP_console.FTP
 
         public FtpClient connection_manager(bool verbose)
         {
+            PopUp popUp = new PopUp();
             try
             {
                 FTP_Json? ftp_config = JsonConvert.DeserializeObject<FTP_Json>(File.ReadAllText(@"./Config/FTP_Config.json"));
@@ -236,9 +241,10 @@ namespace FTP_console.FTP
             }
             catch (Exception e)
             {
-                color.PrintColor(e.Message, ConsoleColor.Red);
+                popUp.Popup(Gtk.DialogFlags.Modal, Gtk.MessageType.Error, Gtk.ButtonsType.Ok, e.Message);
                 //System.Windows.Forms.MessageBox.Show(e.Message, e.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+
+                return new FtpClient("127.0.0.1", 0);
             }
         }
     }  
