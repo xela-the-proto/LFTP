@@ -13,9 +13,19 @@ namespace FTP_console.Menus
         /// <exception cref="InvalidOperationException"></exception>
         public void download_menu_UI(bool verbose)
         {
+            string conf;
+            bool multiple_download;
             int op = 0;
             FTP_Connection connection = new FTP_Connection();
-
+            Console.WriteLine("Download multiple files? [Y/N]");
+            conf = Console.ReadLine();
+            if (conf.Equals("y", StringComparison.CurrentCultureIgnoreCase))
+            {
+                multiple_download = true;
+            }
+            else{
+                multiple_download = false;
+            }
             Console.WriteLine("how would you like to connect to download your files?");
             Console.WriteLine("[0] automatic using FTP_config.json");
             Console.WriteLine("[1] manually");
@@ -24,7 +34,7 @@ namespace FTP_console.Menus
             switch (op)
             {
                 case 0:
-                    connection.connection_manager(verbose, type_of_op);
+                    connection.connection_manager(verbose, type_of_op, multiple_download);
                     break;
 
                 case 1:
@@ -39,7 +49,7 @@ namespace FTP_console.Menus
 
                     FtpClient client = new FtpClient(host, user, password, port);
 
-                    connection.connection_manager(client, verbose, type_of_op);
+                    connection.connection_manager(client, verbose, type_of_op, multiple_download);
                     break;
                 default:
                     throw new InvalidOperationException("Unexpected value");

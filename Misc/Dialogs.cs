@@ -62,7 +62,6 @@ namespace FTP_console.Misc
 
     public class PopUp
     {
-
         public void Popup(DialogFlags flags, MessageType messageType, ButtonsType buttonsType, string message)
         {
             string icon_path = "./Res/667.jpg";
@@ -93,7 +92,7 @@ namespace FTP_console.Misc
 
             // Create a new window
             Window window = new Window(error);
-            window.SetDefaultSize(300, 200);
+            window.SetDefaultSize(300, 400);
             Gdk.Pixbuf icon = new Gdk.Pixbuf(icon_path);
 
             // Create a new MessageDialog
@@ -110,9 +109,10 @@ namespace FTP_console.Misc
 
             // Display the dialog and wait for a response
             dialog.Run();
-            
+
             // Close the dialog
             dialog.Destroy();
+            //dialog.Close += Dialog_Close;
         }
     }
 }

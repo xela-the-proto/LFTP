@@ -10,7 +10,6 @@ namespace FTP_console.FTP
     /// </summary>
     internal class FileDownload
     {
-        ColorConsole color = new ColorConsole();
         //TODO: MAKE A BETTER DOWNLAOD MENU
         public long file_size { get; set; }
         /// <summary>
@@ -25,6 +24,7 @@ namespace FTP_console.FTP
             PathBuilder builder = new PathBuilder();
             PopUp popUp = new PopUp();
             string path = "";
+            List<string> paths = new List<string>();
 
             try
             {
@@ -57,17 +57,17 @@ namespace FTP_console.FTP
                 Console.WriteLine("Type dir to list all the files and folders in the current directory");
 
 
-                path = builder.build_path(client);
+                paths = builder.build_path_download(client);
                 string File_name = path.Substring(path.LastIndexOf('/') + 1);
                 Console.WriteLine(("Downloading..."));
                 string local_path = fileDialog.SaveFileDialog(File_name);
                 timer.Start();
 
-                client.DownloadFile(local_path, path.TrimStart(), FtpLocalExists.Overwrite, FtpVerify.None, progress);
+                client.DownloadFiles(local_path, paths, FtpLocalExists.Overwrite,FtpVerify.None,FtpError.Throw,progress);
+
+                //client.DownloadFile(local_path, path.TrimStart(), FtpLocalExists.Overwrite, FtpVerify.None, progress);
 
                 timer.Stop();
-
-                file_size = client.GetFileSize(path.TrimStart());
             }
             catch (Exception e)
             {
